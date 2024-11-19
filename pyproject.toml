@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ezshop"
 version = "0.1.0"
-description = ""
+description = "Проект курсовая для продажи игр с логикой во вьюхах"
 authors = []
 readme = "README.md"
 
