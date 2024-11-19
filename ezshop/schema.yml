@@ -1,0 +1,282 @@
+openapi: 3.0.3
+info:
+  title: EZshop API
+  version: 1.0.0
+  description: Магазин продажи игр
+paths:
+  /api/v1/balance/:
+    post:
+      operationId: api_v1_balance_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BalanceToUp'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BalanceToUp'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BalanceToUp'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceToUp'
+          description: ''
+  /api/v1/game/{id}/:
+    get:
+      operationId: api_v1_game_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Game'
+          description: ''
+  /api/v1/games/:
+    get:
+      operationId: api_v1_games_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Game'
+          description: ''
+  /api/v1/profile/:
+    get:
+      operationId: api_v1_profile_retrieve
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: ''
+  /api/v1/purchase/:
+    post:
+      operationId: api_v1_purchase_create
+      description: Обрабатывает платеж и обновляет баланс пользователя. Убирает все
+        игры из корзины.
+      tags:
+      - Checkout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checkout'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Баланс обновлен, корзина очищена
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  detail:
+                    type: string
+                    example: Недостаточно средств на балансе
+          description: ''
+  /api/v1/registration/:
+    post:
+      operationId: api_v1_registration_create
+      tags:
+      - api
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegister'
+          description: ''
+  /api/v1/shop-cart/:
+    get:
+      operationId: api_v1_shop_cart_list
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/v1/shop-cart/{game_id}/:
+    post:
+      operationId: api_v1_shop_cart_create
+      parameters:
+      - in: path
+        name: game_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          description: No response body
+    delete:
+      operationId: api_v1_shop_cart_destroy
+      parameters:
+      - in: path
+        name: game_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    BalanceToUp:
+      type: object
+      properties:
+        amount:
+          type: integer
+          minimum: 0
+      required:
+      - amount
+    Checkout:
+      type: object
+      properties:
+        total:
+          type: integer
+          minimum: 0
+      required:
+      - total
+    Game:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          title: Название
+          maxLength: 50
+        description:
+          type: string
+          title: Описание
+          maxLength: 500
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+          title: Цена
+      required:
+      - description
+      - id
+      - price
+      - title
+    UserProfile:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Адрес электронной почты
+          maxLength: 254
+        balance:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+      required:
+      - username
+    UserRegister:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Имя пользователя
+          description: Обязательное поле. Не более 150 символов. Только буквы, цифры
+            и символы @/./+/-/_.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+        email:
+          type: string
+          format: email
+          title: Адрес электронной почты
+          maxLength: 254
+      required:
+      - password
+      - username
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

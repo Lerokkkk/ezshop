@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ezshop"
+version = "0.1.0"
+description = ""
+authors = []
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "4.2.9"
+django-debug-toolbar = "^4.4.6"
+djangorestframework = "^3.15.2"
+markdown = "^3.7"
+python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.10"
+ipython = "^8.29.0"
+django-extensions = "^3.2.3"
+drf-spectacular = "^0.27.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
