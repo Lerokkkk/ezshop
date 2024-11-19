@@ -1,5 +1,4 @@
 # EZshop
-=====
 
 # Instalation
 ## 1. Cloning a repository
