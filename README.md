@@ -28,8 +28,8 @@
 `python manage.py runserver`
 
 ## 7. Documentation 
-**127.0.0.1:8000/api/v1/schema/swagger-ui/** - swagger
+[Swagger](127.0.0.1:8000/api/v1/schema/swagger-ui/)
 
-**127.0.0.1:8000/login/** - login
+[Login](127.0.0.1:8000/login/)
 
-**127.0.0.1:8000/logout/** - logout
+[Logout](127.0.0.1:8000/logout/)
