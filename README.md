@@ -18,7 +18,7 @@
 ## 4. Run migrations:
 `cd ezshop`
 
-`python migrate`
+`python manage.py migrate`
 
 ## 5. Create superuser
 `python manage.py createsuperuser`
@@ -32,3 +32,5 @@
 [Login](http://127.0.0.1:8000/login/)
 
 [Logout](http://127.0.0.1:8000/logout/)
+
+`poetry install` - Чтобы обновить пакеты
