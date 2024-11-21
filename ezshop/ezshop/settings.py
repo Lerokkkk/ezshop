@@ -131,6 +131,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:3000',  # фронтенд на порту 3000
+    'http://localhost:3000',   # для локальных запросов
+]
 
 
 # Default primary key field type
