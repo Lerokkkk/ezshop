@@ -89,6 +89,6 @@ class ShopCartViewSet(mixins.ListModelMixin,
         data = {
             'games': games
         }
-        serializer = ShopCartListSerializer(data)
+        serializer = ShopCartListSerializer(data, context={'request': request})
 
         return Response(serializer.data, status.HTTP_200_OK)

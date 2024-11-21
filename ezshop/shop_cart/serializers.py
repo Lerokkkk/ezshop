@@ -22,10 +22,21 @@ class ShopCartSerializer(serializers.ModelSerializer):
         return shop_cart
 
 
+# class ShopCartListSerializer(serializers.Serializer):
+#     games = GameSerializer(many=True)
+#     total_price = serializers.SerializerMethodField()
+#
+#     def get_total_price(self, obj):
+#         print(obj)
+#         return sum(game.price for game in obj['games'])
+
 class ShopCartListSerializer(serializers.Serializer):
-    games = GameSerializer(many=True)
+    games = serializers.SerializerMethodField()  # Используем метод для сериализации игр
     total_price = serializers.SerializerMethodField()
 
+    def get_games(self, obj):
+        # Передаём контекст дочернему сериализатору
+        return GameSerializer(obj['games'], many=True, context=self.context).data
+
     def get_total_price(self, obj):
-        print(obj)
         return sum(game.price for game in obj['games'])
